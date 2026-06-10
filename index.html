@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
     :root {
       --green:   #2D6A2D;
       --lime:    #7ABF3A;
@@ -17,15 +17,15 @@
       --light:   #E8E4DB;
       --white:   #ffffff;
     }
-
+ 
     html { scroll-behavior: smooth; }
-
+ 
     body {
       font-family: 'Inter', sans-serif;
       background: var(--cream);
       color: var(--dark);
     }
-
+ 
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; width: 100%; z-index: 100;
@@ -51,7 +51,7 @@
       transition: background 0.2s;
     }
     .nav-cta:hover { background: #8fd44a; }
-
+ 
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
@@ -115,7 +115,7 @@
       transition: border-color 0.2s, color 0.2s;
     }
     .btn-secondary:hover { border-color: var(--lime); color: var(--lime); }
-
+ 
     /* ── ANIMATIONS ── */
     @keyframes slideLeft {
       from { opacity: 0; transform: translateX(-60px); }
@@ -129,13 +129,13 @@
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
+ 
     .hero-eyebrow  { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
     .hero-line1    { display: block; animation: slideLeft 0.7s cubic-bezier(.22,.68,0,1.2) both; animation-delay: 0.3s; }
     .hero-line2    { display: block; animation: slideRight 0.7s cubic-bezier(.22,.68,0,1.2) both; animation-delay: 0.55s; }
     .hero p        { animation: fadeUp 0.6s ease both; animation-delay: 0.8s; }
     .hero-buttons  { animation: fadeUp 0.6s ease both; animation-delay: 1s; }
-
+ 
     /* ── SCROLL REVEAL ── */
     .reveal {
       opacity: 0;
@@ -146,11 +146,11 @@
       opacity: 1;
       transform: translateY(0);
     }
-
+ 
     @media (prefers-reduced-motion: reduce) {
       *, .reveal { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
     }
-
+ 
     /* ── TRUST BAR ── */
     .trust-bar {
       background: var(--green);
@@ -164,7 +164,7 @@
       display: flex; align-items: center; gap: 8px;
     }
     .trust-item::before { content: '✓'; color: var(--lime); font-weight: 700; }
-
+ 
     /* ── SECTIONS SHARED ── */
     section { padding: 80px 5%; }
     .section-label {
@@ -189,7 +189,7 @@
       line-height: 1.7;
       margin-bottom: 48px;
     }
-
+ 
     /* ── SERVICES ── */
     #services { background: var(--cream); }
     .services-grid {
@@ -208,7 +208,7 @@
     .service-icon { font-size: 2rem; margin-bottom: 16px; }
     .service-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
     .service-card p { font-size: 0.9rem; color: var(--mid); line-height: 1.6; }
-
+ 
     /* ── ABOUT ── */
     #about { background: var(--dark); }
     #about .section-title { color: var(--white); }
@@ -238,7 +238,7 @@
       line-height: 1;
     }
     .stat-label { font-size: 0.85rem; color: #888; margin-top: 4px; }
-
+ 
     /* ── REVIEWS ── */
     #reviews { background: var(--light); }
     .reviews-grid {
@@ -255,7 +255,7 @@
     .review-text { font-size: 0.95rem; color: var(--mid); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
     .reviewer { font-weight: 700; font-size: 0.88rem; color: var(--dark); }
     .reviewer-location { font-size: 0.8rem; color: #999; }
-
+ 
     /* ── CONTACT ── */
     #contact { background: var(--green); }
     #contact .section-title { color: var(--white); }
@@ -308,7 +308,7 @@
       transition: background 0.2s;
     }
     .contact-form button:hover { background: #8fd44a; }
-
+ 
     /* ── FOOTER ── */
     footer {
       background: var(--dark);
@@ -318,22 +318,61 @@
       font-size: 0.82rem;
     }
     footer span { color: var(--lime); }
-
+ 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
       .trust-bar { gap: 20px; }
     }
+    /* ── LOADER ── */
+    #loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--dark);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 20px;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    #loader img {
+      width: 120px; height: 120px;
+      object-fit: contain;
+      border-radius: 16px;
+      animation: loaderPop 0.6s cubic-bezier(.22,.68,0,1.4) both;
+    }
+    @keyframes loaderPop {
+      from { opacity: 0; transform: scale(0.6); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .loader-bar {
+      width: 160px; height: 3px;
+      background: #333; border-radius: 99px; overflow: hidden;
+    }
+    .loader-bar-fill {
+      height: 100%; width: 0%;
+      background: var(--lime); border-radius: 99px;
+      animation: fillBar 1.2s ease forwards;
+    }
+    @keyframes fillBar {
+      from { width: 0%; }
+      to   { width: 100%; }
+    }
   </style>
 </head>
 <body>
-
+ 
+  <!-- LOADER -->
+  <div id="loader">
+    <img src="logo.png" alt="Logo" />
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+ 
   <!-- NAV -->
   <nav>
     <div class="nav-logo">Green Edge</div>
     <a href="#contact" class="nav-cta">Get a Free Quote</a>
   </nav>
-
+ 
   <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
@@ -346,7 +385,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- TRUST BAR -->
   <div class="trust-bar reveal">
     <span class="trust-item">Licensed & Insured</span>
@@ -354,7 +393,7 @@
     <span class="trust-item">Local & Family Owned</span>
     <span class="trust-item">Satisfaction Guaranteed</span>
   </div>
-
+ 
   <!-- SERVICES -->
   <section id="services" class="reveal">
     <p class="section-label">What We Do</p>
@@ -393,7 +432,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- ABOUT -->
   <section id="about" class="reveal">
     <div class="about-grid">
@@ -423,7 +462,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- REVIEWS -->
   <section id="reviews" class="reveal">
     <p class="section-label">Reviews</p>
@@ -450,7 +489,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- CONTACT -->
   <section id="contact" class="reveal">
     <p class="section-label">Get in Touch</p>
@@ -489,14 +528,21 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- FOOTER -->
   <footer>
     <p>© 2025 <span>Green Edge Lawn Care</span> · Built by Killian · All rights reserved</p>
   </footer>
-
+ 
   <script>
-    const observer = new IntersectionObserver((entries) => {
+    // Loader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 1300);
+    });
+ 
+    // Scroll reveal
       entries.forEach(e => {
         if (e.isIntersecting) {
           e.target.classList.add('visible');
@@ -504,9 +550,10 @@
         }
       });
     }, { threshold: 0.1 });
-
+ 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   </script>
-
+ 
 </body>
 </html>
+ 
