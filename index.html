@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Green Edge Lawn Care</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:   #2D6A2D;
+      --lime:    #7ABF3A;
+      --cream:   #F7F4EE;
+      --dark:    #1A1A1A;
+      --mid:     #4A4A4A;
+      --light:   #E8E4DB;
+      --white:   #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: var(--dark);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 5%;
+      height: 60px;
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--lime);
+      letter-spacing: 2px;
+    }
+    .nav-cta {
+      background: var(--lime);
+      color: var(--dark);
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 8px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: #8fd44a; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--dark);
+      display: flex; align-items: center;
+      padding: 80px 5% 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; right: -100px; top: -100px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(122,191,58,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { max-width: 680px; position: relative; z-index: 1; }
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--lime);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      line-height: 0.95;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+    .hero h1 span { color: var(--lime); }
+    .hero p {
+      font-size: 1.1rem;
+      color: #aaa;
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 36px;
+    }
+    .hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--lime);
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 32px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #8fd44a; }
+    .btn-secondary {
+      border: 2px solid #444;
+      color: var(--white);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 12px 28px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--lime); color: var(--lime); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes slideLeft {
+      from { opacity: 0; transform: translateX(-60px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideRight {
+      from { opacity: 0; transform: translateX(60px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow  { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
+    .hero-line1    { display: block; animation: slideLeft 0.7s cubic-bezier(.22,.68,0,1.2) both; animation-delay: 0.3s; }
+    .hero-line2    { display: block; animation: slideRight 0.7s cubic-bezier(.22,.68,0,1.2) both; animation-delay: 0.55s; }
+    .hero p        { animation: fadeUp 0.6s ease both; animation-delay: 0.8s; }
+    .hero-buttons  { animation: fadeUp 0.6s ease both; animation-delay: 1s; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, .reveal { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
+    }
+
+    /* ── TRUST BAR ── */
+    .trust-bar {
+      background: var(--green);
+      padding: 18px 5%;
+      display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+    }
+    .trust-item {
+      color: var(--white);
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .trust-item::before { content: '✓'; color: var(--lime); font-weight: 700; }
+
+    /* ── SECTIONS SHARED ── */
+    section { padding: 80px 5%; }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--mid);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--cream); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .service-card {
+      background: var(--white);
+      border: 1px solid var(--light);
+      border-radius: 8px;
+      padding: 32px 28px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .service-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-3px); }
+    .service-icon { font-size: 2rem; margin-bottom: 16px; }
+    .service-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    .service-card p { font-size: 0.9rem; color: var(--mid); line-height: 1.6; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--dark); }
+    #about .section-title { color: var(--white); }
+    #about .section-label { color: var(--lime); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .about-text p {
+      color: #aaa;
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 0.98rem;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .stat { border-left: 3px solid var(--lime); padding-left: 18px; }
+    .stat-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--white);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.85rem; color: #888; margin-top: 4px; }
+
+    /* ── REVIEWS ── */
+    #reviews { background: var(--light); }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .review-card {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 28px;
+    }
+    .stars { color: #F5A623; font-size: 1rem; margin-bottom: 14px; }
+    .review-text { font-size: 0.95rem; color: var(--mid); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+    .reviewer { font-weight: 700; font-size: 0.88rem; color: var(--dark); }
+    .reviewer-location { font-size: 0.8rem; color: #999; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--green); }
+    #contact .section-title { color: var(--white); }
+    #contact .section-label { color: var(--lime); }
+    #contact .section-sub { color: rgba(255,255,255,0.7); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 24px; }
+    .contact-item { display: flex; gap: 14px; align-items: flex-start; }
+    .contact-item-icon {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .contact-item-text strong { display: block; color: var(--white); font-size: 0.85rem; margin-bottom: 2px; }
+    .contact-item-text span { color: rgba(255,255,255,0.65); font-size: 0.9rem; }
+    .contact-form { display: flex; flex-direction: column; gap: 14px; }
+    .contact-form input,
+    .contact-form textarea {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      padding: 14px 16px;
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: rgba(255,255,255,0.4); }
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: var(--lime); }
+    .contact-form textarea { resize: vertical; min-height: 120px; }
+    .contact-form button {
+      background: var(--lime);
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .contact-form button:hover { background: #8fd44a; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      text-align: center;
+      padding: 24px 5%;
+      color: #555;
+      font-size: 0.82rem;
+    }
+    footer span { color: var(--lime); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .trust-bar { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Green Edge</div>
+    <a href="#contact" class="nav-cta">Get a Free Quote</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Serving Butler County, Ohio</p>
+      <h1><span class="hero-line1">Your Lawn.</span><span class="hero-line2 " style="color:var(--lime)">Done Right.</span></h1>
+      <p>Professional lawn care you can count on. We show up on time, do the job properly, and leave your property looking its best — every single visit.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn-primary">Get a Free Quote</a>
+        <a href="#services" class="btn-secondary">Our Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar reveal">
+    <span class="trust-item">Licensed & Insured</span>
+    <span class="trust-item">Free Estimates</span>
+    <span class="trust-item">Local & Family Owned</span>
+    <span class="trust-item">Satisfaction Guaranteed</span>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services" class="reveal">
+    <p class="section-label">What We Do</p>
+    <h2 class="section-title">Services We Offer</h2>
+    <p class="section-sub">From weekly mowing to full yard cleanups, we handle it all so you don't have to.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🌿</div>
+        <h3>Lawn Mowing</h3>
+        <p>Weekly or bi-weekly cuts, edging, and cleanup. Your yard looking sharp all season long.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">✂️</div>
+        <h3>Trimming & Edging</h3>
+        <p>Clean lines along driveways, walkways, and flower beds that make the whole yard pop.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🍂</div>
+        <h3>Leaf Removal</h3>
+        <p>Full yard cleanups in fall and spring. We haul everything away and leave nothing behind.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🌱</div>
+        <h3>Fertilizing</h3>
+        <p>Seasonal treatments that keep your grass healthy, green, and growing strong all year.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🪨</div>
+        <h3>Mulching</h3>
+        <p>Fresh mulch installed in flower beds and around trees to keep everything looking clean.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📋</div>
+        <h3>One-Time Cleanups</h3>
+        <p>Moving in or just need a reset? We'll get your property back in shape fast.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="reveal">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="section-label">About Us</p>
+        <h2 class="section-title">We're Your Neighbors.</h2>
+        <p>We're a local, family-run operation that's been taking care of lawns in this area for years. No big corporate crews, no strangers — just reliable people you'll recognize every time we show up.</p>
+        <p>We built this business on doing the job right and showing up when we say we will. That's it. Word of mouth has kept us busy, and we'd love to add you to the list.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="stat-number">200+</div>
+          <div class="stat-label">Happy Customers</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">8</div>
+          <div class="stat-label">Years in Business</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Satisfaction Rate</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">5★</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" class="reveal">
+    <p class="section-label">Reviews</p>
+    <h2 class="section-title">What Customers Say</h2>
+    <p class="section-sub">Don't take our word for it.</p>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"They showed up on time, did a perfect job, and the yard looked amazing. I've tried three other services before and these guys are the only ones I'm sticking with."</p>
+        <div class="reviewer">Mike T.</div>
+        <div class="reviewer-location">Hamilton, OH</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Called for a quote on Monday and they were out by Wednesday. Fast, friendly, and the price was totally fair. Highly recommend."</p>
+        <div class="reviewer">Sarah K.</div>
+        <div class="reviewer-location">Fairfield, OH</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Our backyard was a disaster after the winter. One visit and it looked like a completely different yard. Really impressed with the attention to detail."</p>
+        <div class="reviewer">Dave R.</div>
+        <div class="reviewer-location">Middletown, OH</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="reveal">
+    <p class="section-label">Get in Touch</p>
+    <h2 class="section-title">Get a Free Quote</h2>
+    <p class="section-sub">Fill out the form or give us a call. We'll get back to you same day.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div class="contact-item-text">
+            <strong>Phone</strong>
+            <span>(555) 000-0000</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📧</div>
+          <div class="contact-item-text">
+            <strong>Email</strong>
+            <span>hello@greenedgelawn.com</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-text">
+            <strong>Service Area</strong>
+            <span>Hamilton, Fairfield, Middletown & surrounding areas</span>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <input type="text" placeholder="Your Name" />
+        <input type="tel" placeholder="Phone Number" />
+        <input type="text" placeholder="Your Address" />
+        <textarea placeholder="Tell us what you need..."></textarea>
+        <button type="button">Send Message</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 <span>Green Edge Lawn Care</span> · Built by Killian · All rights reserved</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
